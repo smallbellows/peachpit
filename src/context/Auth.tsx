@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import FullSpinner from 'components/FullSpinner';
+import { createContext, useState, useEffect, useContext } from 'react';
 import * as T from 'types';
 import { supabase } from 'utils';
+import { useLoading } from './Loading';
 
 const AuthContext = createContext<null | T.Auth>(null);
 AuthContext.displayName = 'AuthContext';
@@ -46,7 +46,7 @@ async function getProfile(
 
 const AuthProvider = ({ children }: any) => {
     const [session, setSession] = useState<null | T.Session>(null);
-    const [loading, setLoading] = useState(false);
+    const { setIsLoading } = useLoading() as T.LoadingContext;
     const [profile, setProfile] = useState<null | T.Profile>(null);
 
     useEffect(() => {
@@ -58,10 +58,8 @@ const AuthProvider = ({ children }: any) => {
     }, []);
 
     useEffect(() => {
-        getProfile(session, setProfile, setLoading);
-    }, [session]);
-
-    if (loading) return <FullSpinner />;
+        getProfile(session, setProfile, setIsLoading);
+    }, [session, setIsLoading]);
 
     const login = (credentials: T.UserCredentials) => {
         return supabase.auth.signIn(credentials);

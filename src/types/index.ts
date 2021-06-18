@@ -20,3 +20,8 @@ export interface Auth {
     login: Function;
     logout: Function;
 }
+
+export interface LoadingContext {
+    isLoading: boolean;
+    setIsLoading: (value: boolean) => void;
+}

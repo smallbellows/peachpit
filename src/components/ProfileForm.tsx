@@ -14,14 +14,16 @@ import { useEffect, useState } from 'react';
 import Avatar from 'components/Avatar';
 import { supabase } from 'utils';
 import { Redirect } from 'react-router-dom';
+import { useLoading } from 'context/Loading';
 
 const ProfileForm = () => {
     const user = useUser();
-
+    const { isLoading, setIsLoading } = useLoading();
     const [username, setUsername] = useState<string | null>(null);
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [done, setDone] = useState(false);
+
     useEffect(() => {
         setUsername(user?.username || null);
         setAvatarUrl(user?.avatarUrl || null);
@@ -33,6 +35,7 @@ const ProfileForm = () => {
     ) => {
         if (!username) return;
         setError(null);
+        setIsLoading(true);
         const updates = {
             id: user?.userId,
             username,
@@ -45,13 +48,14 @@ const ProfileForm = () => {
         if (updateError) {
             setError(updateError.message);
         } else {
+            setIsLoading(false);
             setDone(true);
         }
     };
 
     if (!user) return null;
     if (error) return <Text>{error}</Text>;
-    if (done) return <Redirect to="/" />;
+    if (done && !isLoading) return <Redirect to="/" />;
     return (
         <SimpleGrid
             columns={1}
@@ -66,7 +70,7 @@ const ProfileForm = () => {
             </Heading>
             <Text>Please update your profile!</Text>
             <Divider colorScheme="blackAlpha" size="md" />
-            <FormControl isInvalid={!Boolean(username)}>
+            <FormControl isInvalid={!isLoading && !Boolean(username)}>
                 <FormLabel htmlFor="username">Name</FormLabel>
                 <Input
                     type="text"

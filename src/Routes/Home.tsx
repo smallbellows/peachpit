@@ -12,6 +12,7 @@ const Home = (): JSX.Element | null => {
     if (user && !user.username) {
         return <Redirect to="/profile" />;
     }
+
     return (
         <SimpleGrid rows={3} columns={1} spacingY="20px" m="5%">
             <Header />
