@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import Banner from 'components/Banner';
+import Banner from 'components/Shared/Banner';
 
 const Home = (): JSX.Element => {
     return (

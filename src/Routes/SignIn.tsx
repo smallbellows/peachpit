@@ -1,6 +1,6 @@
 import { SimpleGrid } from '@chakra-ui/react';
-import SignIn from 'components/SignIn';
-import Banner from 'components/Banner';
+import SignIn from 'components/Auth/SignIn';
+import Banner from 'components/Shared/Banner';
 
 const SignInRoute = () => {
     return (

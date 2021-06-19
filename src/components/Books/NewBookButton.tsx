@@ -10,7 +10,7 @@ import {
     DrawerContent,
     Heading,
 } from '@chakra-ui/react';
-import NewBookForm from 'components/NewBookForm';
+import NewBookForm from 'components/Books/NewBookForm';
 
 const FORM_ID = 'new-book-form';
 const NewBookButton = () => {

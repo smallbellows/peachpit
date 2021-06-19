@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { useUser } from 'context/Auth';
 import { useEffect, useState } from 'react';
-import Avatar from 'components/Avatar';
+import Avatar from 'components/Shared/Avatar';
 import { supabase } from 'utils';
 import { Redirect } from 'react-router-dom';
 import { useLoading } from 'context/Loading';

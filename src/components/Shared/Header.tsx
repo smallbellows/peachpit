@@ -1,7 +1,7 @@
 import { useAuth } from 'context/Auth';
 import { Link } from 'react-router-dom';
 import { HStack, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
-import Avatar from 'components/Avatar';
+import Avatar from 'components/Shared/Avatar';
 const Header = (): JSX.Element => {
     const auth = useAuth();
     if (!auth) return <span />;

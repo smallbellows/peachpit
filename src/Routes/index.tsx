@@ -5,7 +5,7 @@ import Home from './Home';
 import Profile from './Profile';
 import { useUser } from 'context/Auth';
 import { useLoading } from 'context/Loading';
-import FullSpinner from 'components/FullSpinner';
+import FullSpinner from 'components/Shared/FullSpinner';
 const AppRouter = () => {
     const user = useUser();
     const { isLoading } = useLoading();

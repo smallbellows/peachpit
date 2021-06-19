@@ -1,6 +1,6 @@
 import { SimpleGrid } from '@chakra-ui/react';
-import Banner from 'components/Banner';
-import ProfileForm from 'components/ProfileForm';
+import Banner from 'components/Shared/Banner';
+import ProfileForm from 'components/Profile/ProfileForm';
 
 const Home = (): JSX.Element => {
     return (
