@@ -8,7 +8,7 @@ import {
     IconButton,
 } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
-import { supabase } from 'utils/supabaseClient';
+import { supabase } from 'utils';
 import React, { useEffect, useState } from 'react';
 
 interface AvatarProps {

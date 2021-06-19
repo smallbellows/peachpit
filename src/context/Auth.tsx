@@ -46,7 +46,7 @@ async function getProfile(
 
 const AuthProvider = ({ children }: any) => {
     const [session, setSession] = useState<null | T.Session>(null);
-    const { setIsLoading } = useLoading() as T.LoadingContext;
+    const { setIsLoading } = useLoading();
     const [profile, setProfile] = useState<null | T.Profile>(null);
 
     useEffect(() => {
