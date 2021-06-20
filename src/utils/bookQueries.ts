@@ -32,6 +32,7 @@ export const getAllBooks = async (): Promise<T.Book[]> => {
         const { data, error } = await supabase.from<T.Book>('books').select(`
             id,
             title,
+            cover_url,
             author: author (
                 name,
                 id
