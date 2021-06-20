@@ -40,8 +40,10 @@ export interface Book {
     id: number;
     title: string;
     author: Author;
-    createdBy: string;
-    createdAt: string;
+    created_by: string;
+    created_at: string;
+    description?: string;
+    cover_url?: string;
 }
 
 export interface BooksContext {

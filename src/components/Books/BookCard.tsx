@@ -1,8 +1,8 @@
 import * as T from 'types';
-import { SimpleGrid, Heading, Text, Image, HStack } from '@chakra-ui/react';
+import { SimpleGrid, Heading, Text, HStack } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
-import placeholderCover from './book-cover-placeholder.svg';
-
+import { Link } from 'react-router-dom';
+import CoverImage from 'components/Books/CoverImage';
 interface BookCardProps {
     book: T.Book;
 }
@@ -17,14 +17,16 @@ const BookCard = (props: BookCardProps) => {
             borderRadius="md"
             p="2"
         >
-            <Heading>{book.title}</Heading>
+            <Link to={`/book/${book.id}`}>
+                <Heading>{book.title}</Heading>
+            </Link>
             <Text align="right">{`by ${book.author.name}`}</Text>
-            <Image
+            <CoverImage
                 margin="0 auto"
                 width="50%"
-                src={placeholderCover}
-                alt="placeholder book cover"
+                imagePath={book.cover_url}
             />
+
             <HStack justifyContent="flex-end">
                 <EditIcon boxSize="1.5em" color="teal.500" />
             </HStack>

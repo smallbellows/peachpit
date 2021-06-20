@@ -78,12 +78,52 @@ export const insertBook = async (
                 author,
                 title: data.title,
                 id: data.id as number,
-                createdBy: data.created_by,
-                createdAt: data.created_at,
+                created_by: data.created_by,
+                created_at: data.created_at,
             };
         }
     } catch (e) {
         console.log('unable to insert book', e);
     }
     return newBook;
+};
+
+export const updateBook = async (
+    book: T.Book,
+    authorIsChanged: boolean,
+    user: T.Profile
+): Promise<T.Book> => {
+    if (!user) return book;
+
+    try {
+        const { author, ...rest } = book;
+        if (authorIsChanged) {
+            const { error: authorError } = await supabase
+                .from('authors')
+                .upsert(
+                    {
+                        ...author,
+                        updated_by: user.userId,
+                        updated_at: new Date().toISOString(),
+                    },
+                    { returning: 'minimal' }
+                );
+            if (authorError) throw authorError;
+        }
+
+        const { error } = await supabase.from('books').upsert(
+            {
+                ...rest,
+                author: author.id,
+                updated_by: user.userId,
+                updated_at: new Date().toISOString(),
+            },
+            { returning: 'minimal', onConflict: 'id' }
+        );
+        if (error) throw error;
+    } catch (e) {
+        console.log('unable to update book', e);
+    }
+
+    return book;
 };

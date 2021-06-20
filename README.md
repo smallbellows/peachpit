@@ -23,6 +23,12 @@ REACT_APP_SUPABASE_ANON_KEY=<>
 
 Set those up to point to your supabase instance and you'll be good to go!
 
+# Google Books API
+
+This app uses the google books API to get cover art and default descriptions. The search queries are all done using just a API key, no OAuth needed, because we're just getting public books information. https://developers.google.com/books/docs/overview
+
+Once you have your own API key, put it in your `.env` file as `REACT_APP_GOOGLE_API_KEY`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

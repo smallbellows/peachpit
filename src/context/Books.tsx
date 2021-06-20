@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from 'utils';
+import { getAllBooks } from 'utils';
 import * as T from 'types';
 
 const BooksContext = createContext<T.BooksContext | null>(null);
@@ -8,21 +8,8 @@ const BooksProvider = ({ children, booksProp }: any) => {
     const [books, setBooks] = useState<T.Book[]>(booksProp || []);
 
     const getBooksData = async () => {
-        const { data, error } = await supabase.from('books').select(`
-            id,
-            title,
-            author: author (
-                name,
-                id
-            )
-        `);
-        if (data) {
-            setBooks(data);
-        }
-        if (error) {
-            console.log(error);
-            setBooks([]);
-        }
+        const books = await getAllBooks();
+        setBooks(books);
     };
 
     useEffect(() => {

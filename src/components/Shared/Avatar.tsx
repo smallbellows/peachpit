@@ -76,7 +76,6 @@ const Avatar = ({ url, onUpload, size }: AvatarProps) => {
         if (!onUpload || !url) return;
         try {
             setUploading(true);
-            debugger;
             const { error: deleteError } = await supabase.storage
                 .from('avatars')
                 .remove([url]);

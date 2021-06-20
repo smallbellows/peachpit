@@ -1,5 +1,5 @@
 import { useAuth } from 'context/Auth';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { HStack, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 import Avatar from 'components/Shared/Avatar';
 const Header = (): JSX.Element => {
@@ -8,6 +8,9 @@ const Header = (): JSX.Element => {
     const { profile, logout } = auth;
     return (
         <HStack width="100%" spacing="8" justifyContent="flex-end">
+            <NavLink to="/" exact activeStyle={{ display: 'none' }}>
+                Home
+            </NavLink>
             <Menu>
                 <MenuButton>
                     <Avatar url={profile?.avatarUrl || ''} size="sm" />
