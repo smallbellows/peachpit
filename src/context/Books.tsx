@@ -11,8 +11,9 @@ const BooksProvider = ({ children, booksProp }: any) => {
         const { data, error } = await supabase.from('books').select(`
             id,
             title,
-            authors (
-                name
+            author: author (
+                name,
+                id
             )
         `);
         if (data) {

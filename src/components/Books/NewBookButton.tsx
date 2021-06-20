@@ -18,9 +18,7 @@ const NewBookButton = () => {
 
     return (
         <>
-            <Button colorScheme="teal" onClick={() => onOpen()}>
-                Add A New Book
-            </Button>
+            <Button onClick={() => onOpen()}>Add A New Book</Button>
             <Drawer onClose={onClose} isOpen={isOpen} size="md">
                 <DrawerOverlay />
                 <DrawerContent>
@@ -32,18 +30,10 @@ const NewBookButton = () => {
                     </DrawerBody>
                     <DrawerFooter>
                         <ButtonGroup>
-                            <Button
-                                colorScheme="teal"
-                                variant="outline"
-                                onClick={onClose}
-                            >
+                            <Button variant="outline" onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button
-                                type="submit"
-                                colorScheme="teal"
-                                form={FORM_ID}
-                            >
+                            <Button type="submit" form={FORM_ID}>
                                 Submit
                             </Button>
                         </ButtonGroup>
