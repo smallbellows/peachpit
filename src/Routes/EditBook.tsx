@@ -1,14 +1,14 @@
 import { useParams } from 'react-router-dom';
 import MainLayout from 'components/Layout/Main';
-import BookPage from 'components/Books/BookPage';
+import EditBookPage from 'components/Books/EditBook';
 
-const Book = () => {
+const EditBook = () => {
     const { id } = useParams();
     return (
         <MainLayout>
-            <BookPage id={id} />
+            <EditBookPage id={id} />
         </MainLayout>
     );
 };
 
-export default Book;
+export default EditBook;
