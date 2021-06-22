@@ -1,17 +1,28 @@
 import * as T from 'types';
 import {
     Formik,
-    FormikHelpers,
     FormikProps,
     FieldProps,
     Form,
     Field,
+    FormikHandlers,
+    FormikHelpers,
 } from 'formik';
-import { FormControl, FormLabel, Input, Textarea } from '@chakra-ui/react';
+import {
+    FormControl,
+    FormLabel,
+    Input,
+    Textarea,
+    ButtonGroup,
+    Button,
+} from '@chakra-ui/react';
 
 interface BookFormProps {
-    book?: T.Book;
-    onSubmit: (book: T.Book) => void;
+    book: T.Book;
+    onSubmit: (
+        book: T.Book,
+        actions: FormikHelpers<BookEditFormValues>
+    ) => void;
     onCancel: () => void;
 }
 
@@ -19,16 +30,32 @@ interface BookEditFormValues {
     title: string;
     authorName: string;
     description?: string;
-    coverUrl?: string;
 }
 const BookForm = (props: BookFormProps) => {
-    const { book, onSubmit } = props;
+    const { book, onSubmit, onCancel } = props;
 
     const initialValues: BookEditFormValues = {
         title: book?.title || '',
         authorName: book?.author.name || '',
         description: book?.description || '',
-        coverUrl: book?.cover_url || '',
+    };
+
+    const handleSumbit = (
+        values: BookEditFormValues,
+        actions: FormikHelpers<BookEditFormValues>
+    ) => {
+        const author: T.Author = {
+            ...book.author,
+            name: values.authorName,
+        };
+        const bookToUpdate: T.Book = {
+            ...book,
+            author,
+            title: values.title,
+            description: values.description,
+        };
+
+        onSubmit(book, actions);
     };
 
     return (
@@ -80,10 +107,20 @@ const BookForm = (props: BookFormProps) => {
                                 )}
                             >
                                 <FormLabel htmlFor="description"></FormLabel>
-                                <Textarea {...field} id="description" />
+                                <Textarea
+                                    {...field}
+                                    id="description"
+                                    height="md"
+                                />
                             </FormControl>
                         )}
                     </Field>
+                    <ButtonGroup>
+                        <Button variant="outline" onClick={onCancel}>
+                            Cancel
+                        </Button>
+                        <Button type="submit">Save Changes</Button>
+                    </ButtonGroup>
                 </Form>
             )}
         </Formik>

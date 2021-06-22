@@ -19,6 +19,7 @@ import {
 import CoverImage from 'components/Books/CoverImage';
 import GoogleBooksSearchResults from 'components/Books/GoogleBooksSearchResults';
 import { useUser } from 'context/Auth';
+import { useHistory } from 'react-router-dom';
 interface BookPageProps {
     id: number;
 }
@@ -27,7 +28,7 @@ const BookPage = (props: BookPageProps) => {
     const { isLoading, setIsLoading } = useLoading();
     const [book, setBook] = useState<T.Book | null>(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
-
+    const history = useHistory();
     const load = useCallback(async () => {
         setIsLoading(true);
         const result = await getBook(props.id);
@@ -75,7 +76,13 @@ const BookPage = (props: BookPageProps) => {
                     </Box>
                     <ButtonGroup>
                         <Button onClick={onOpen}>Fill google book info</Button>
-                        <Button>Edit</Button>
+                        <Button
+                            onClick={() =>
+                                history.push(`/book/${book.id}/edit`)
+                            }
+                        >
+                            Edit
+                        </Button>
                     </ButtonGroup>
                 </Container>
                 <Drawer onClose={onClose} isOpen={isOpen} size="md">
