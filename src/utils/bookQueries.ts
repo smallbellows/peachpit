@@ -33,7 +33,7 @@ export const getAllBooks = async (): Promise<T.Book[]> => {
             id,
             title,
             cover_url,
-            author: author (
+            author: authors (
                 name,
                 id
             )
