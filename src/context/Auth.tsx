@@ -2,7 +2,6 @@ import { createContext, useState, useEffect, useContext } from 'react';
 import * as T from 'types';
 import { supabase } from 'utils';
 import { useLoading } from './Loading';
-
 const AuthContext = createContext<null | T.Auth>(null);
 AuthContext.displayName = 'AuthContext';
 
@@ -65,7 +64,8 @@ const AuthProvider = ({ children }: any) => {
         return supabase.auth.signIn(credentials);
     };
 
-    const logout = () => {
+    const logout = (history: any) => {
+        history.replace('/');
         return supabase.auth.signOut();
     };
 

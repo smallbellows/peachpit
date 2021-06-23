@@ -9,7 +9,9 @@ import {
     Text,
     Heading,
     Box,
+    SimpleGrid,
 } from '@chakra-ui/react';
+import RequestForm from './RequestForm';
 
 const SignIn = () => {
     const auth = useAuth();
@@ -43,7 +45,14 @@ const SignIn = () => {
         );
     }
     return (
-        <Box width="75%" minWidth="300px" margin="0 auto">
+        <SimpleGrid
+            width="75%"
+            minWidth="300px"
+            margin="0 auto"
+            rows={2}
+            column={1}
+            spacingY="3"
+        >
             <Formik
                 initialValues={{ email: '' }}
                 onSubmit={async (values) => {
@@ -98,7 +107,10 @@ const SignIn = () => {
                     );
                 }}
             </Formik>
-        </Box>
+
+            <Heading textAlign="center">Or request to join here:</Heading>
+            <RequestForm />
+        </SimpleGrid>
     );
 };
 
