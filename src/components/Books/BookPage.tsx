@@ -68,7 +68,7 @@ const BookPage = (props: BookPageProps) => {
                             <CoverImage
                                 w="95%"
                                 float="left"
-                                imagePath={book.cover_url}
+                                imagePath={book.cover_url || null}
                             />
                         </Box>
 

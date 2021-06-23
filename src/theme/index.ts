@@ -36,7 +36,7 @@ const overrides = {
             'html, body': {
                 background: 'red.50',
                 maxWidth: '100vw', // This might end up being problematic, but it's solving some animation weirdness
-                overflowY: 'hidden',
+                overflowX: 'hidden',
             },
         },
     },
