@@ -28,7 +28,9 @@ const BookCard = (props: BookCardProps) => {
             />
 
             <HStack justifyContent="flex-end">
-                <EditIcon boxSize="1.5em" color="teal.500" />
+                <Link to={`/book/${book.id}/edit`}>
+                    <EditIcon boxSize="1.5em" color="teal.500" />
+                </Link>
             </HStack>
         </SimpleGrid>
     );

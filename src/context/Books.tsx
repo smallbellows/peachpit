@@ -4,8 +4,8 @@ import * as T from 'types';
 
 const BooksContext = createContext<T.BooksContext | null>(null);
 
-const BooksProvider = ({ children, booksProp }: any) => {
-    const [books, setBooks] = useState<T.Book[]>(booksProp || []);
+const BooksProvider = ({ children }: any) => {
+    const [books, setBooks] = useState<T.Book[]>([]);
 
     const getBooksData = async () => {
         const books = await getAllBooks();
