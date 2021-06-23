@@ -2,8 +2,10 @@ import { useAuth } from 'context/Auth';
 import { Link, NavLink } from 'react-router-dom';
 import { HStack, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 import Avatar from 'components/Shared/Avatar';
+import { useHistory } from 'react-router-dom';
 const Header = (): JSX.Element => {
     const auth = useAuth();
+    const history = useHistory();
     if (!auth) return <span />;
     const { profile, logout } = auth;
     return (
@@ -19,7 +21,13 @@ const Header = (): JSX.Element => {
                     <MenuItem>
                         <Link to="/profile">Edit Profile</Link>
                     </MenuItem>
-                    <MenuItem onClick={() => logout()}>Log Out</MenuItem>
+                    <MenuItem
+                        onClick={() => {
+                            logout(history);
+                        }}
+                    >
+                        Log Out
+                    </MenuItem>
                 </MenuList>
             </Menu>
         </HStack>
