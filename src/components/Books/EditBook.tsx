@@ -1,13 +1,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as T from 'types';
-import { getBook } from 'utils';
+import { getBook, updateBook } from 'utils';
 import { useLoading } from 'context/Loading';
 import { useUser } from 'context/Auth';
 import { Container } from '@chakra-ui/react';
 import BookForm from 'components/Books/BookForm';
-import { FormikHelpers } from 'formik';
-
+import { useBooks } from 'context/Books';
 interface EditBookProps {
     id: number;
 }
@@ -16,7 +15,7 @@ const EditBook = ({ id }: EditBookProps) => {
     const history = useHistory();
     const [book, setBook] = useState<T.Book | null>(null);
     const user = useUser();
-
+    const { editBook } = useBooks();
     const load = useCallback(async () => {
         setIsLoading(true);
         const result = await getBook(id);
@@ -39,7 +38,17 @@ const EditBook = ({ id }: EditBookProps) => {
             <Container sx={{ 'input, textarea': { background: 'gray.50' } }}>
                 <BookForm
                     book={book}
-                    onSubmit={(book: T.Book, actions: FormikHelpers<any>) => {}}
+                    onSubmit={async (updatedBook: T.Book) => {
+                        const isAuthorChanged =
+                            updatedBook.author.name !== book.author.name;
+                        const newBook = await updateBook(
+                            updatedBook,
+                            isAuthorChanged,
+                            user
+                        );
+                        editBook(newBook);
+                        history.push(`/book/${newBook.id}`);
+                    }}
                     onCancel={() => history.goBack()}
                 />
             </Container>

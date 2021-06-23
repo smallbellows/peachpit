@@ -1,13 +1,5 @@
 import * as T from 'types';
-import {
-    Formik,
-    FormikProps,
-    FieldProps,
-    Form,
-    Field,
-    FormikHandlers,
-    FormikHelpers,
-} from 'formik';
+import { Formik, FormikProps, FieldProps, Form, Field } from 'formik';
 import {
     FormControl,
     FormLabel,
@@ -19,10 +11,7 @@ import {
 
 interface BookFormProps {
     book: T.Book;
-    onSubmit: (
-        book: T.Book,
-        actions: FormikHelpers<BookEditFormValues>
-    ) => void;
+    onSubmit: (book: T.Book) => void;
     onCancel: () => void;
 }
 
@@ -40,10 +29,7 @@ const BookForm = (props: BookFormProps) => {
         description: book?.description || '',
     };
 
-    const handleSumbit = (
-        values: BookEditFormValues,
-        actions: FormikHelpers<BookEditFormValues>
-    ) => {
+    const handleSumbit = (values: BookEditFormValues) => {
         const author: T.Author = {
             ...book.author,
             name: values.authorName,
@@ -55,13 +41,24 @@ const BookForm = (props: BookFormProps) => {
             description: values.description,
         };
 
-        onSubmit(book, actions);
+        onSubmit(bookToUpdate);
     };
 
     return (
-        <Formik initialValues={initialValues} onSubmit={() => {}}>
+        <Formik initialValues={initialValues} onSubmit={handleSumbit}>
             {(props: FormikProps<BookEditFormValues>) => (
                 <Form>
+                    <ButtonGroup
+                        mt="4"
+                        mb="4"
+                        display="flex"
+                        justifyContent="flex-end"
+                    >
+                        <Button variant="outline" onClick={onCancel}>
+                            Cancel
+                        </Button>
+                        <Button type="submit">Save Changes</Button>
+                    </ButtonGroup>
                     <Field name="title">
                         {({
                             field,
@@ -115,12 +112,6 @@ const BookForm = (props: BookFormProps) => {
                             </FormControl>
                         )}
                     </Field>
-                    <ButtonGroup>
-                        <Button variant="outline" onClick={onCancel}>
-                            Cancel
-                        </Button>
-                        <Button type="submit">Save Changes</Button>
-                    </ButtonGroup>
                 </Form>
             )}
         </Formik>
