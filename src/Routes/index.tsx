@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Box } from '@chakra-ui/react';
 import SignIn from './SignIn';
 import Home from './Home';
@@ -10,6 +11,22 @@ import { useLoading } from 'context/Loading';
 import { BooksProvider } from 'context/Books';
 
 import FullSpinner from 'components/Shared/FullSpinner';
+const motionProps = {
+    initial: {
+        opacity: 0,
+    },
+    animate: {
+        opacity: 1,
+    },
+    exit: {
+        opacity: 0,
+    },
+    transition: {
+        ease: 'easeInOut',
+        duration: 1,
+        type: 'tween',
+    },
+};
 const AppRouter = () => {
     const user = useUser();
     const { isLoading } = useLoading();
@@ -21,22 +38,56 @@ const AppRouter = () => {
             {isLoading && <FullSpinner />}
             <BooksProvider>
                 <Router>
-                    <Switch>
-                        <Route path="/signin">
-                            <SignIn />
-                        </Route>
+                    <Route
+                        render={({ location }: any) => {
+                            return (
+                                <AnimatePresence
+                                    exitBeforeEnter
+                                    initial={false}
+                                >
+                                    <Switch
+                                        location={location}
+                                        key={location.key}
+                                    >
+                                        <Route exact path="/signin">
+                                            <motion.div {...motionProps}>
+                                                <SignIn />
+                                            </motion.div>
+                                        </Route>
 
-                        <Route path="/profile">
-                            <Profile />
-                        </Route>
+                                        <Route path="/profile">
+                                            <motion.div {...motionProps}>
+                                                <Profile />
+                                            </motion.div>
+                                        </Route>
 
-                        <Route path="/book/:id/edit" children={<EditBook />} />
-                        <Route path="/book/:id" children={<Book />}></Route>
+                                        <Route
+                                            path="/book/:id/edit"
+                                            children={
+                                                <motion.div {...motionProps}>
+                                                    <EditBook />
+                                                </motion.div>
+                                            }
+                                        />
+                                        <Route
+                                            path="/book/:id"
+                                            children={
+                                                <motion.div {...motionProps}>
+                                                    <Book />
+                                                </motion.div>
+                                            }
+                                        ></Route>
 
-                        <Route path="/">
-                            <Home />
-                        </Route>
-                    </Switch>
+                                        <Route exact path="/">
+                                            <motion.div {...motionProps}>
+                                                <Home />
+                                            </motion.div>
+                                        </Route>
+                                    </Switch>
+                                </AnimatePresence>
+                            );
+                        }}
+                    />
                 </Router>
             </BooksProvider>
         </Box>
