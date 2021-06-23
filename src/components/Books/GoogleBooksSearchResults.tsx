@@ -1,7 +1,7 @@
 import * as T from 'types';
 import { useState, useEffect } from 'react';
 import { useLoading } from 'context/Loading';
-import { Wrap, Box, Text, Button, Image } from '@chakra-ui/react';
+import { Wrap, SimpleGrid, Text, Button, Image } from '@chakra-ui/react';
 const queryURL = `https://www.googleapis.com/books/v1/volumes?
     key=${process.env.REACT_APP_GOOGLE_API_KEY}
     &projection=lite`;
@@ -18,6 +18,19 @@ interface SearchResultItem {
     description?: string;
     imageLink: string;
 }
+
+const cleanImageUrl = (rawUrl: string): string => {
+    const [url, params] = rawUrl.split('?');
+    const onlyRequiredParams = params
+        .split('&')
+        .filter((param) => {
+            const [key] = param.split('=');
+            return !['source', 'edge'].includes(key);
+        })
+        .join('&');
+    const secureUrl = url.replace('http', 'https');
+    return `${secureUrl}?${onlyRequiredParams}`;
+};
 
 const GoogleBooksSearchResults = (props: GBSRProps) => {
     const { title, author } = props.book;
@@ -51,7 +64,9 @@ const GoogleBooksSearchResults = (props: GBSRProps) => {
                         id,
                         title,
                         author: authors.length ? authors[0] : '',
-                        imageLink: imageLinks ? imageLinks.thumbnail : '',
+                        imageLink: imageLinks
+                            ? cleanImageUrl(imageLinks.thumbnail)
+                            : '',
                         description: description ? description : '',
                     };
                     return book;
@@ -70,30 +85,40 @@ const GoogleBooksSearchResults = (props: GBSRProps) => {
     return (
         <Wrap>
             {books.map((book) => (
-                <Box
+                <SimpleGrid
                     key={book.id}
                     border="1px solid"
                     borderColor="red.800"
                     p="2"
                     borderRadius="3"
+                    row={3}
+                    column={1}
+                    spacingY="3"
                 >
-                    <Text mb="1" as="i">
+                    <Text as="i">
                         {book.title} by {book.author}
                     </Text>
                     <Text>
-                        {' '}
-                        <Image
-                            src={book.imageLink}
-                            alt="cover image"
-                            float="left"
-                            p="5px"
-                        />
+                        {book.imageLink && (
+                            <Image
+                                src={book.imageLink}
+                                alt="cover image"
+                                float="left"
+                                p="5px"
+                            />
+                        )}
+
                         {book.description}
                     </Text>
-                    <Button size="xs" onClick={() => props.onSelected(book)}>
+                    <Button
+                        size="xs"
+                        onClick={() => props.onSelected(book)}
+                        justifySelf="end"
+                        width="fit-content"
+                    >
                         This one
                     </Button>
-                </Box>
+                </SimpleGrid>
             ))}
         </Wrap>
     );
