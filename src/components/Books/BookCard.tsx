@@ -24,7 +24,7 @@ const BookCard = (props: BookCardProps) => {
             <CoverImage
                 margin="0 auto"
                 width="50%"
-                imagePath={book.cover_url}
+                imagePath={book.cover_url || null}
             />
 
             <HStack justifyContent="flex-end">
