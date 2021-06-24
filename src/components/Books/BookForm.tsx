@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import EditCoverImage from 'components/Books/EditCoverImage';
 import { useState } from 'react';
-import { supabase, updateBook } from 'utils';
+import { supabase } from 'utils';
 
 interface BookFormProps {
     book: T.Book;
