@@ -8,7 +8,7 @@ const BookList = () => {
         <Wrap spacing="2">
             {books.map((book) => {
                 return (
-                    <WrapItem key={book.id}>
+                    <WrapItem key={book.id} maxWidth={['50%', '25%']}>
                         <BookCard key={book.id} book={book} />
                     </WrapItem>
                 );
