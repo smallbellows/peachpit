@@ -1,5 +1,12 @@
 import * as T from 'types';
-import { SimpleGrid, Heading, Text, HStack } from '@chakra-ui/react';
+import {
+    SimpleGrid,
+    Heading,
+    Text,
+    HStack,
+    Tag,
+    TagLabel,
+} from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 import CoverImage from 'components/Books/CoverImage';
@@ -31,6 +38,14 @@ const BookCard = (props: BookCardProps) => {
                 <Link to={`/book/${book.id}/edit`}>
                     <EditIcon boxSize="1.5em" color="teal.500" />
                 </Link>
+            </HStack>
+            <HStack>
+                {book.tags &&
+                    book.tags.map((tag) => (
+                        <Tag mb={1} colorScheme="teal" key={tag.id}>
+                            <TagLabel>{tag.name}</TagLabel>
+                        </Tag>
+                    ))}
             </HStack>
         </SimpleGrid>
     );

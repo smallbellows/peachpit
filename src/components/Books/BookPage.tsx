@@ -15,6 +15,9 @@ import {
     DrawerContent,
     DrawerHeader,
     DrawerBody,
+    Tag,
+    TagLabel,
+    HStack,
 } from '@chakra-ui/react';
 import CoverImage from 'components/Books/CoverImage';
 import GoogleBooksSearchResults from 'components/Books/GoogleBooksSearchResults';
@@ -84,6 +87,14 @@ const BookPage = (props: BookPageProps) => {
                             Edit
                         </Button>
                     </ButtonGroup>
+                    <HStack>
+                        {book.tags &&
+                            book.tags.map((tag) => (
+                                <Tag mb={1} colorScheme="teal" key={tag.id}>
+                                    <TagLabel>{tag.name}</TagLabel>
+                                </Tag>
+                            ))}
+                    </HStack>
                 </Container>
                 <Drawer onClose={onClose} isOpen={isOpen} size="md">
                     <DrawerOverlay />
