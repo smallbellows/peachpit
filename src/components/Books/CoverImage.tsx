@@ -16,6 +16,7 @@ const CoverImage = (props: CoverImageProps) => {
             let url = path;
             if (path.includes('http')) {
                 setSrc(url);
+                return;
             }
             setIsLoading(true);
             const { data, error } = await supabase.storage
@@ -38,7 +39,7 @@ const CoverImage = (props: CoverImageProps) => {
     if (isLoading) {
         return <Box bg="gray.100" />;
     }
-    return <Image src={src} alt={alt} {...rest} />;
+    return <Image {...rest} src={src} alt={alt} />;
 };
 
 export default CoverImage;

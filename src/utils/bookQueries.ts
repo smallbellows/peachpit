@@ -47,7 +47,6 @@ export const getAllBooks = async (): Promise<T.Book[]> => {
             )
         `);
         if (error) throw error;
-        debugger;
         if (data) books = data;
     } catch (e) {
         console.log('unable to get books', e);
