@@ -14,6 +14,10 @@ export const getBook = async (id: number): Promise<T.Book | null> => {
             author: author (
                 name,
                 id
+            ),
+            tags (
+                id,
+                name
             )
         `);
         if (error) throw error;
@@ -36,6 +40,10 @@ export const getAllBooks = async (): Promise<T.Book[]> => {
             author: authors (
                 name,
                 id
+            ),
+            tags (
+                id,
+                name
             )
         `);
         if (error) throw error;
@@ -44,4 +52,19 @@ export const getAllBooks = async (): Promise<T.Book[]> => {
         console.log('unable to get books', e);
     }
     return books;
+};
+
+export const getAllTags = async (): Promise<T.Tag[]> => {
+    let tags: T.Tag[] = [];
+    try {
+        const { data, error } = await supabase.from<T.Tag>('tags').select(`
+            id,
+            name
+        `);
+        if (error) throw error;
+        if (data) tags = data;
+    } catch (e) {
+        console.log('unable to get tags', e);
+    }
+    return tags;
 };
