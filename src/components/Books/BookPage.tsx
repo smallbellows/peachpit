@@ -44,12 +44,10 @@ const BookPage = (props: BookPageProps) => {
     }, [load]);
 
     const user = useUser();
-    const handleUpdate = async (
-        updatedBook: T.Book,
-        isAuthorUpdated: boolean
-    ) => {
+    const handleUpdate = async (updatedBook: T.Book) => {
         if (!user) return;
         setIsLoading(true);
+        const isAuthorUpdated = updatedBook.author.name !== book?.author.name;
         const newBook = await updateBook(updatedBook, isAuthorUpdated, user);
 
         setIsLoading(false);
@@ -107,21 +105,17 @@ const BookPage = (props: BookPageProps) => {
                                 book={book}
                                 onSelected={(bookFromSearch) => {
                                     const bookToUpdate: T.Book = {
-                                        id: book.id,
+                                        ...book,
                                         author: {
-                                            id: book.author.id,
+                                            ...book.author,
                                             name: bookFromSearch.author,
                                         },
                                         title: bookFromSearch.title,
                                         description: bookFromSearch.description,
                                         cover_url: bookFromSearch.imageLink,
-                                        created_at: book.created_at,
-                                        created_by: book.created_by,
                                     };
-                                    const isAuthorUpdated =
-                                        book.author.name !==
-                                        bookToUpdate.author.name;
-                                    handleUpdate(bookToUpdate, isAuthorUpdated);
+
+                                    handleUpdate(bookToUpdate);
                                 }}
                             />
                         </DrawerBody>
