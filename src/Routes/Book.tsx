@@ -6,7 +6,7 @@ const Book = () => {
     const { id } = useParams();
     return (
         <MainLayout>
-            <BookPage id={id} />
+            <BookPage id={+id} />
         </MainLayout>
     );
 };

@@ -101,14 +101,15 @@ export const updateBook = async (
         if (authorIsChanged) {
             const { error: authorError } = await supabase
                 .from('authors')
-                .upsert(
+                .update(
                     {
-                        ...author,
+                        name: author.name,
                         updated_by: user.userId,
                         updated_at: new Date().toISOString(),
                     },
                     { returning: 'minimal' }
-                );
+                )
+                .eq('id', author.id);
             if (authorError) throw authorError;
         }
 

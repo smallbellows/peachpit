@@ -22,6 +22,7 @@ import {
 import CoverImage from 'components/Books/CoverImage';
 import GoogleBooksSearchResults from 'components/Books/GoogleBooksSearchResults';
 import { useUser } from 'context/Auth';
+import { useBooks } from 'context/Books';
 import { useHistory } from 'react-router-dom';
 interface BookPageProps {
     id: number;
@@ -31,6 +32,7 @@ const BookPage = (props: BookPageProps) => {
     const { isLoading, setIsLoading } = useLoading();
     const [book, setBook] = useState<T.Book | null>(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { editBook } = useBooks();
     const history = useHistory();
     const load = useCallback(async () => {
         setIsLoading(true);
@@ -53,6 +55,7 @@ const BookPage = (props: BookPageProps) => {
         setIsLoading(false);
         onClose();
         setBook(newBook);
+        editBook(newBook);
     };
 
     if (!isLoading && !book) {
@@ -85,7 +88,7 @@ const BookPage = (props: BookPageProps) => {
                             Edit
                         </Button>
                     </ButtonGroup>
-                    <HStack>
+                    <HStack mt={1}>
                         {book.tags &&
                             book.tags.map((tag) => (
                                 <Tag mb={1} colorScheme="teal" key={tag.id}>

@@ -63,7 +63,7 @@ const GoogleBooksSearchResults = (props: GBSRProps) => {
                     const book: SearchResultItem = {
                         id,
                         title,
-                        author: authors.length ? authors[0] : '',
+                        author: authors?.length ? authors[0] : '',
                         imageLink: imageLinks
                             ? cleanImageUrl(imageLinks.thumbnail)
                             : '',

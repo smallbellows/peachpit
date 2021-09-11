@@ -4,7 +4,10 @@ import * as T from 'types';
 export const getBook = async (id: number): Promise<T.Book | null> => {
     let book: T.Book | null = null;
     try {
-        const { data, error } = await supabase.from<T.Book>('books').select(`
+        const { data, error } = await supabase
+            .from<T.Book>('books')
+            .select(
+                `
             id,
             title,
             cover_url,
@@ -19,7 +22,9 @@ export const getBook = async (id: number): Promise<T.Book | null> => {
                 id,
                 name
             )
-        `);
+        `
+            )
+            .eq('id', id);
         if (error) throw error;
         if (Array.isArray(data) && data.length) {
             book = data[0];
@@ -33,7 +38,10 @@ export const getBook = async (id: number): Promise<T.Book | null> => {
 export const getAllBooks = async (): Promise<T.Book[]> => {
     let books: T.Book[] = [];
     try {
-        const { data, error } = await supabase.from<T.Book>('books').select(`
+        const { data, error } = await supabase
+            .from<T.Book>('books')
+            .select(
+                `
             id,
             title,
             cover_url,
@@ -45,7 +53,9 @@ export const getAllBooks = async (): Promise<T.Book[]> => {
                 id,
                 name
             )
-        `);
+        `
+            )
+            .order('created_at');
         if (error) throw error;
         if (data) books = data;
     } catch (e) {

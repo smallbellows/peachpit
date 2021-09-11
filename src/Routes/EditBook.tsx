@@ -6,7 +6,7 @@ const EditBook = () => {
     const { id } = useParams();
     return (
         <MainLayout>
-            <EditBookPage id={id} />
+            <EditBookPage id={+id} />
         </MainLayout>
     );
 };

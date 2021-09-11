@@ -11,6 +11,7 @@ import * as T from 'types';
 import { useUser } from 'context/Auth';
 import { useBooks } from 'context/Books';
 import { getAuthor, insertBook } from 'utils';
+import { useHistory } from 'react-router-dom';
 
 const initialValues: T.NewBook = {
     title: '',
@@ -24,6 +25,7 @@ interface NewBookFormProps {
 const NewBookForm = ({ formId, onComplete }: NewBookFormProps) => {
     const user = useUser();
     const { addBook } = useBooks();
+    const history = useHistory();
 
     const handleSumbit = async (
         values: T.NewBook,
@@ -33,10 +35,12 @@ const NewBookForm = ({ formId, onComplete }: NewBookFormProps) => {
         const author = await getAuthor(values.author, user);
         if (!author) return actions.setSubmitting(false);
         const newBook = await insertBook(values, author, user);
+        actions.setSubmitting(false);
         if (newBook) {
             addBook(newBook);
+            history.push(`/book/${newBook.id}`);
         }
-        return actions.setSubmitting(false);
+        return;
     };
 
     return (
