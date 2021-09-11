@@ -20,9 +20,9 @@ const initialValues: T.NewBook = {
 
 interface NewBookFormProps {
     formId: string;
-    onComplete: () => void;
+    setSubmitting: (isSubmitting: boolean) => void;
 }
-const NewBookForm = ({ formId, onComplete }: NewBookFormProps) => {
+const NewBookForm = ({ formId, setSubmitting }: NewBookFormProps) => {
     const user = useUser();
     const { addBook } = useBooks();
     const history = useHistory();
@@ -34,12 +34,15 @@ const NewBookForm = ({ formId, onComplete }: NewBookFormProps) => {
         if (!user) return actions.setSubmitting(false);
         const author = await getAuthor(values.author, user);
         if (!author) return actions.setSubmitting(false);
+        setSubmitting(true);
         const newBook = await insertBook(values, author, user);
         actions.setSubmitting(false);
+
         if (newBook) {
             addBook(newBook);
             history.push(`/book/${newBook.id}`);
         }
+        setSubmitting(false);
         return;
     };
 

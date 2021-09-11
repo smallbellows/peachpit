@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
     useDisclosure,
     Drawer,
@@ -15,7 +16,7 @@ import NewBookForm from 'components/Books/NewBookForm';
 const FORM_ID = 'new-book-form';
 const NewBookButton = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-
+    const [submitting, setSubmitting] = useState(false);
     return (
         <>
             <Button onClick={() => onOpen()}>Add A New Book</Button>
@@ -26,14 +27,21 @@ const NewBookButton = () => {
                         <Heading>Add new book</Heading>
                     </DrawerHeader>
                     <DrawerBody>
-                        <NewBookForm formId={FORM_ID} onComplete={onClose} />
+                        <NewBookForm
+                            formId={FORM_ID}
+                            setSubmitting={setSubmitting}
+                        />
                     </DrawerBody>
                     <DrawerFooter>
                         <ButtonGroup>
                             <Button variant="outline" onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button type="submit" form={FORM_ID}>
+                            <Button
+                                type="submit"
+                                form={FORM_ID}
+                                disabled={submitting}
+                            >
                                 Submit
                             </Button>
                         </ButtonGroup>

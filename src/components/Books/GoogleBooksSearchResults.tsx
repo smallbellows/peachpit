@@ -37,12 +37,14 @@ const GoogleBooksSearchResults = (props: GBSRProps) => {
     const { isLoading, setIsLoading } = useLoading();
     const [books, setBooks] = useState<SearchResultItem[]>([]);
     const searchTitle = encodeURIComponent(title);
-    const searchAuthor = encodeURIComponent(author.name);
+    const searchAuthor = author.name ? encodeURIComponent(author.name) : null;
     useEffect(() => {
         const queryBooks = async () => {
             setIsLoading(true);
+            const titleQuery = `intitle:${searchTitle}`;
+            const authorQuery = searchAuthor ? `+inauthor:${searchAuthor}` : '';
             const searchResults = await fetch(
-                `${queryURL}&q=intitle:${searchTitle}+inauthor:${searchAuthor}`
+                `${queryURL}&q=${titleQuery}+${authorQuery}`
             )
                 .then((r) => {
                     if (r.status === 200) {
