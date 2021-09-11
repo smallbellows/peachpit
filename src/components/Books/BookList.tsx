@@ -1,19 +1,19 @@
 import { useBooks } from 'context/Books';
-import { Wrap, WrapItem } from '@chakra-ui/react';
+import { SimpleGrid, Box } from '@chakra-ui/react';
 import BookCard from 'components/Books/BookCard';
 const BookList = () => {
     const { books } = useBooks();
 
     return (
-        <Wrap spacing="2">
+        <SimpleGrid columns={[1, 2, 3, 4, 5]} spacing="5">
             {books.map((book) => {
                 return (
-                    <WrapItem key={book.id} maxWidth={['50%', '25%']}>
+                    <Box key={book.id}>
                         <BookCard key={book.id} book={book} />
-                    </WrapItem>
+                    </Box>
                 );
             })}
-        </Wrap>
+        </SimpleGrid>
     );
 };
 

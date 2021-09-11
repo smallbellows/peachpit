@@ -23,6 +23,7 @@ const BookCard = (props: BookCardProps) => {
             borderColor="teal.800"
             borderRadius="md"
             p="2"
+            height="100%"
         >
             <Link to={`/book/${book.id}`}>
                 <Heading>{book.title}</Heading>
