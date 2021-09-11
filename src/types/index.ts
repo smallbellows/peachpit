@@ -44,6 +44,12 @@ export interface Book {
     created_at: string;
     description?: string;
     cover_url?: string;
+    tags?: Tag[];
+}
+
+export interface Tag {
+    id: number;
+    name: string;
 }
 
 export interface BooksContext {
@@ -51,4 +57,9 @@ export interface BooksContext {
     addBook: (book: Book) => void;
     editBook: (book: Book) => void;
     deleteBook: (id: number) => void;
+}
+
+export interface TagsContext {
+    tags: Tag[];
+    addTag: (tag: Tag) => void;
 }

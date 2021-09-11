@@ -6,7 +6,9 @@ import { useLoading } from 'context/Loading';
 import { useUser } from 'context/Auth';
 import { Container } from '@chakra-ui/react';
 import BookForm from 'components/Books/BookForm';
-import { useBooks } from 'context/Books';
+import TagPicker from 'components/Shared/TagPicker';
+import { useBooks, useTags } from 'context/Books';
+import { insertTag } from 'utils';
 interface EditBookProps {
     id: number;
 }
@@ -16,6 +18,7 @@ const EditBook = ({ id }: EditBookProps) => {
     const [book, setBook] = useState<T.Book | null>(null);
     const user = useUser();
     const { editBook } = useBooks();
+    const { tags, addTag } = useTags();
     const load = useCallback(async () => {
         setIsLoading(true);
         const result = await getBook(id);
@@ -26,6 +29,19 @@ const EditBook = ({ id }: EditBookProps) => {
     useEffect(() => {
         load();
     }, [load]);
+
+    const onCreateTag = async (tagName: string) => {
+        if (!user) return null;
+        const tag = await insertTag(tagName, user);
+        if (tag) {
+            addTag(tag);
+            if (book) {
+                const tags = book.tags || [];
+                setBook({ ...book, tags: [...tags, tag] });
+            }
+        }
+        return tag;
+    };
 
     if (!user) return <div />;
 
@@ -46,11 +62,21 @@ const EditBook = ({ id }: EditBookProps) => {
                             isAuthorChanged,
                             user
                         );
-                        editBook(newBook);
+                        editBook({ ...newBook, tags: book.tags });
                         history.push(`/book/${newBook.id}`);
                     }}
                     onCancel={() => history.goBack()}
                 />
+                {book && (
+                    <TagPicker
+                        tags={book.tags || []}
+                        allTags={tags}
+                        onCreateTag={onCreateTag}
+                        onSelection={(tags: T.Tag[]) => {
+                            setBook({ ...book, tags });
+                        }}
+                    />
+                )}
             </Container>
         );
     }

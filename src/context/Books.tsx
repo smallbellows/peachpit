@@ -1,20 +1,29 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { getAllBooks } from 'utils';
+import { getAllBooks, getAllTags } from 'utils';
 import * as T from 'types';
 
 const BooksContext = createContext<T.BooksContext | null>(null);
+const TagsContext = createContext<T.TagsContext | null>(null);
 
 const BooksProvider = ({ children }: any) => {
     const [books, setBooks] = useState<T.Book[]>([]);
+    const [tags, setTags] = useState<T.Tag[]>([]);
 
     const getBooksData = async () => {
         const books = await getAllBooks();
         setBooks(books);
     };
 
+    const getTagsData = async () => {
+        const tags = await getAllTags();
+        setTags(tags);
+    };
+
     useEffect(() => {
         getBooksData();
+        getTagsData();
     }, []);
+
     const addBook = (book: T.Book) => {
         setBooks([...books, book]);
     };
@@ -33,12 +42,21 @@ const BooksProvider = ({ children }: any) => {
         setBooks(books.filter((book) => book.id === id));
     };
 
+    const addTag = (tag: T.Tag) => {
+        setTags([...tags, tag]);
+    };
+
     return (
-        <BooksContext.Provider value={{ books, addBook, editBook, deleteBook }}>
-            {children}
-        </BooksContext.Provider>
+        <TagsContext.Provider value={{ tags, addTag }}>
+            <BooksContext.Provider
+                value={{ books, addBook, editBook, deleteBook }}
+            >
+                {children}
+            </BooksContext.Provider>
+        </TagsContext.Provider>
     );
 };
 
 const useBooks = () => useContext(BooksContext) as T.BooksContext;
-export { BooksProvider, useBooks };
+const useTags = () => useContext(TagsContext) as T.TagsContext;
+export { BooksProvider, useBooks, useTags };

@@ -15,6 +15,9 @@ import {
     DrawerContent,
     DrawerHeader,
     DrawerBody,
+    Tag,
+    TagLabel,
+    HStack,
 } from '@chakra-ui/react';
 import CoverImage from 'components/Books/CoverImage';
 import GoogleBooksSearchResults from 'components/Books/GoogleBooksSearchResults';
@@ -41,12 +44,10 @@ const BookPage = (props: BookPageProps) => {
     }, [load]);
 
     const user = useUser();
-    const handleUpdate = async (
-        updatedBook: T.Book,
-        isAuthorUpdated: boolean
-    ) => {
+    const handleUpdate = async (updatedBook: T.Book) => {
         if (!user) return;
         setIsLoading(true);
+        const isAuthorUpdated = updatedBook.author.name !== book?.author.name;
         const newBook = await updateBook(updatedBook, isAuthorUpdated, user);
 
         setIsLoading(false);
@@ -84,6 +85,14 @@ const BookPage = (props: BookPageProps) => {
                             Edit
                         </Button>
                     </ButtonGroup>
+                    <HStack>
+                        {book.tags &&
+                            book.tags.map((tag) => (
+                                <Tag mb={1} colorScheme="teal" key={tag.id}>
+                                    <TagLabel>{tag.name}</TagLabel>
+                                </Tag>
+                            ))}
+                    </HStack>
                 </Container>
                 <Drawer onClose={onClose} isOpen={isOpen} size="md">
                     <DrawerOverlay />
@@ -96,21 +105,17 @@ const BookPage = (props: BookPageProps) => {
                                 book={book}
                                 onSelected={(bookFromSearch) => {
                                     const bookToUpdate: T.Book = {
-                                        id: book.id,
+                                        ...book,
                                         author: {
-                                            id: book.author.id,
+                                            ...book.author,
                                             name: bookFromSearch.author,
                                         },
                                         title: bookFromSearch.title,
                                         description: bookFromSearch.description,
                                         cover_url: bookFromSearch.imageLink,
-                                        created_at: book.created_at,
-                                        created_by: book.created_by,
                                     };
-                                    const isAuthorUpdated =
-                                        book.author.name !==
-                                        bookToUpdate.author.name;
-                                    handleUpdate(bookToUpdate, isAuthorUpdated);
+
+                                    handleUpdate(bookToUpdate);
                                 }}
                             />
                         </DrawerBody>

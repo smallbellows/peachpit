@@ -1,5 +1,6 @@
 import { supabase } from 'utils';
 import * as T from 'types';
+import { tagBook } from './tagMutations';
 
 interface AuthorDB extends T.Author {
     created_by: string;
@@ -96,7 +97,7 @@ export const updateBook = async (
     if (!user) return book;
 
     try {
-        const { author, ...rest } = book;
+        const { author, tags, ...rest } = book;
         if (authorIsChanged) {
             const { error: authorError } = await supabase
                 .from('authors')
@@ -111,6 +112,7 @@ export const updateBook = async (
             if (authorError) throw authorError;
         }
 
+        await tagBook(book.id, tags, user);
         const { error } = await supabase.from('books').upsert(
             {
                 ...rest,
