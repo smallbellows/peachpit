@@ -43,7 +43,7 @@ const BookCard = (props: BookCardProps) => {
             <HStack>
                 {book.tags &&
                     book.tags.map((tag) => (
-                        <Tag mb={1} colorScheme="teal" key={tag.id}>
+                        <Tag colorScheme="teal" key={tag.id}>
                             <TagLabel>{tag.name}</TagLabel>
                         </Tag>
                     ))}

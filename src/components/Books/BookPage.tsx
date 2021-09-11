@@ -88,10 +88,10 @@ const BookPage = (props: BookPageProps) => {
                             Edit
                         </Button>
                     </ButtonGroup>
-                    <HStack mt={1}>
+                    <HStack mt={1} mb={1}>
                         {book.tags &&
                             book.tags.map((tag) => (
-                                <Tag mb={1} colorScheme="teal" key={tag.id}>
+                                <Tag colorScheme="teal" key={tag.id}>
                                     <TagLabel>{tag.name}</TagLabel>
                                 </Tag>
                             ))}
