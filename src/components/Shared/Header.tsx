@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { HStack, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 import Avatar from 'components/Shared/Avatar';
 import { useHistory } from 'react-router-dom';
+import NewBookButton from 'components/Books/NewBookButton';
 const Header = (): JSX.Element => {
     const auth = useAuth();
     const history = useHistory();
@@ -13,6 +14,7 @@ const Header = (): JSX.Element => {
             <NavLink to="/" exact activeStyle={{ display: 'none' }}>
                 Home
             </NavLink>
+            <NewBookButton />
             <Menu>
                 <MenuButton>
                     <Avatar url={profile?.avatarUrl || ''} size="sm" />
