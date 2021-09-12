@@ -6,6 +6,7 @@ import Home from './Home';
 import Profile from './Profile';
 import Book from './Book';
 import EditBook from './EditBook';
+import Tag from './Tag';
 import { useUser } from 'context/Auth';
 import { useLoading } from 'context/Loading';
 import { BooksProvider } from 'context/Books';
@@ -105,6 +106,15 @@ const AppRouter = () => {
                                             children={
                                                 <motion.div {...motionProps}>
                                                     <Book />
+                                                </motion.div>
+                                            }
+                                        ></Route>
+
+                                        <Route
+                                            path="/tag/:slug"
+                                            children={
+                                                <motion.div {...motionProps}>
+                                                    <Tag />
                                                 </motion.div>
                                             }
                                         ></Route>

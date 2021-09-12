@@ -25,8 +25,6 @@ interface TagPickerProps {
 
 const CREATE: T.Tag = { id: -1, name: 'CREATE' };
 
-const PERMANENT_TAGS = ['Book Club Pick'];
-
 const TagPicker = (props: TagPickerProps) => {
     const { tags, allTags, onCreateTag, onSelection } = props;
 
@@ -112,21 +110,18 @@ const TagPicker = (props: TagPickerProps) => {
             <Stack flexWrap="wrap" spacing="2" isInline>
                 {selectedItems.map((selectedItem, index) => (
                     <Tag
-                        mb={1}
                         key={`itemtag${selectedItem.id}`}
                         colorScheme="teal"
                         {...getSelectedItemProps({ selectedItem, index })}
                     >
                         <TagLabel>{selectedItem.name}</TagLabel>
-                        {!PERMANENT_TAGS.includes(selectedItem.name) && (
-                            <TagCloseButton
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    removeSelectedItem(selectedItem);
-                                }}
-                                aria-label="Remove this tag"
-                            />
-                        )}
+                        <TagCloseButton
+                            onClick={(e) => {
+                                e.preventDefault();
+                                removeSelectedItem(selectedItem);
+                            }}
+                            aria-label="Remove this tag"
+                        />
                     </Tag>
                 ))}
                 <IconButton

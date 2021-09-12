@@ -1,9 +1,12 @@
-import { useBooks } from 'context/Books';
 import { SimpleGrid, Box } from '@chakra-ui/react';
 import BookCard from 'components/Books/BookCard';
-const BookList = () => {
-    const { books } = useBooks();
+import * as T from 'types';
 
+type BookListProps = {
+    books: T.Book[] | null | undefined;
+};
+const BookList = ({ books }: BookListProps) => {
+    if (!books) return <div></div>;
     return (
         <SimpleGrid columns={[1, 2, 3, 4, 5]} spacing="5">
             {books.map((book) => {

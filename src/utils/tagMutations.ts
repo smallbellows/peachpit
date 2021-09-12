@@ -36,7 +36,11 @@ export const insertTag = async (
     if (!user) return null;
 
     try {
-        const tag = { name: tagName, user_id: user.userId };
+        const tag = {
+            name: tagName,
+            user_id: user.userId,
+            slug: tagName.toLowerCase().replace(' ', '-'),
+        }; // TODO: also replace non-text chars
         const { data, error } = await supabase.from('tags').insert(tag);
         if (data && data.length) {
             return data[0];

@@ -20,7 +20,8 @@ export const getBook = async (id: number): Promise<T.Book | null> => {
             ),
             tags (
                 id,
-                name
+                name,
+                slug
             )
         `
             )
@@ -51,7 +52,8 @@ export const getAllBooks = async (): Promise<T.Book[]> => {
             ),
             tags (
                 id,
-                name
+                name,
+                slug
             )
         `
             )
@@ -69,7 +71,8 @@ export const getAllTags = async (): Promise<T.Tag[]> => {
     try {
         const { data, error } = await supabase.from<T.Tag>('tags').select(`
             id,
-            name
+            name, 
+            slug
         `);
         if (error) throw error;
         if (data) tags = data;

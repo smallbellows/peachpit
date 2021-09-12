@@ -15,8 +15,6 @@ import {
     DrawerContent,
     DrawerHeader,
     DrawerBody,
-    Tag,
-    TagLabel,
     HStack,
 } from '@chakra-ui/react';
 import CoverImage from 'components/Books/CoverImage';
@@ -24,6 +22,7 @@ import GoogleBooksSearchResults from 'components/Books/GoogleBooksSearchResults'
 import { useUser } from 'context/Auth';
 import { useBooks } from 'context/Books';
 import { useHistory } from 'react-router-dom';
+import TagLink from 'components/Shared/TagLink';
 interface BookPageProps {
     id: number;
 }
@@ -91,9 +90,7 @@ const BookPage = (props: BookPageProps) => {
                     <HStack mt={1} mb={1}>
                         {book.tags &&
                             book.tags.map((tag) => (
-                                <Tag colorScheme="teal" key={tag.id}>
-                                    <TagLabel>{tag.name}</TagLabel>
-                                </Tag>
+                                <TagLink tag={tag} key={tag.id} />
                             ))}
                     </HStack>
                 </Container>

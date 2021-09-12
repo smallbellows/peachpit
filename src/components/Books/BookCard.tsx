@@ -1,15 +1,9 @@
 import * as T from 'types';
-import {
-    SimpleGrid,
-    Heading,
-    Text,
-    HStack,
-    Tag,
-    TagLabel,
-} from '@chakra-ui/react';
+import { SimpleGrid, Heading, Text, HStack } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 import CoverImage from 'components/Books/CoverImage';
+import TagLink from 'components/Shared/TagLink';
 interface BookCardProps {
     book: T.Book;
 }
@@ -42,11 +36,7 @@ const BookCard = (props: BookCardProps) => {
             </HStack>
             <HStack>
                 {book.tags &&
-                    book.tags.map((tag) => (
-                        <Tag colorScheme="teal" key={tag.id}>
-                            <TagLabel>{tag.name}</TagLabel>
-                        </Tag>
-                    ))}
+                    book.tags.map((tag) => <TagLink tag={tag} key={tag.id} />)}
             </HStack>
         </SimpleGrid>
     );
