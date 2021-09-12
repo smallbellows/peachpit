@@ -69,8 +69,35 @@ const AuthProvider = ({ children }: any) => {
         return supabase.auth.signOut();
     };
 
+    const updatePassword = async (
+        accessToken: string,
+        password: string,
+        history: any
+    ) => {
+        setIsLoading(true);
+        const { error } = await supabase.auth.api.updateUser(accessToken, {
+            password,
+        });
+        setIsLoading(false);
+        if (error) {
+            throw error;
+        }
+
+        history.replace('/');
+    };
+
+    const resetPassword = async (email: string) => {
+        const { error } = await supabase.auth.api.resetPasswordForEmail(email);
+        if (error) {
+            throw error;
+        }
+        return;
+    };
+
     return (
-        <AuthContext.Provider value={{ login, logout, profile }}>
+        <AuthContext.Provider
+            value={{ login, logout, resetPassword, profile, updatePassword }}
+        >
             <UserContext.Provider value={profile}>
                 {children}
             </UserContext.Provider>

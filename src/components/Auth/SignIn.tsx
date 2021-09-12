@@ -1,21 +1,12 @@
 import { useState } from 'react';
-import { useAuth } from 'context/Auth';
-import { Formik, Form, Field, FieldProps } from 'formik';
-import {
-    FormControl,
-    FormLabel,
-    Input,
-    Button,
-    Text,
-    Heading,
-    Box,
-    SimpleGrid,
-} from '@chakra-ui/react';
+import { Button, Text, Heading, Box, SimpleGrid } from '@chakra-ui/react';
 import RequestForm from './RequestForm';
+import { SignInForm } from './SignInForm';
+import { ResetPassword } from './ResetPassword';
 
 const SignIn = () => {
-    const auth = useAuth();
     const [signedIn, setSignedIn] = useState(false);
+    const [showResetting, setShowResetting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     if (signedIn) {
@@ -44,6 +35,18 @@ const SignIn = () => {
             </Box>
         );
     }
+
+    if (showResetting) {
+        return (
+            <Box width="75%" miWidth="300px" margin="0 auto">
+                <ResetPassword
+                    onDone={() => setShowResetting(false)}
+                    setError={setError}
+                />
+            </Box>
+        );
+    }
+
     return (
         <SimpleGrid
             width="75%"
@@ -53,61 +56,11 @@ const SignIn = () => {
             column={1}
             spacingY="3"
         >
-            <Formik
-                initialValues={{ email: '' }}
-                onSubmit={async (values) => {
-                    if (values && values.email) {
-                        const result = await auth?.login(values);
-                        if (result.error) {
-                            setError(result.error.message);
-                        } else {
-                            setSignedIn(true);
-                        }
-                    }
-                }}
-            >
-                {() => {
-                    return (
-                        <Form>
-                            <Field name="email">
-                                {({ field, form }: FieldProps) => {
-                                    return (
-                                        <FormControl
-                                            isInvalid={Boolean(
-                                                form.errors.email &&
-                                                    form.touched.email
-                                            )}
-                                        >
-                                            <FormLabel htmlFor="email">
-                                                Email
-                                            </FormLabel>
-                                            <Input
-                                                type="email"
-                                                id="email"
-                                                required
-                                                background="gray.50"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                    );
-                                }}
-                            </Field>
-                            <Box textAlign="right">
-                                <Button
-                                    colorScheme="teal"
-                                    type="submit"
-                                    marginTop="5px"
-                                >
-                                    <Heading as="p" size="md">
-                                        Sign In
-                                    </Heading>
-                                </Button>
-                            </Box>
-                        </Form>
-                    );
-                }}
-            </Formik>
-
+            <SignInForm
+                setError={setError}
+                setSignedIn={setSignedIn}
+                setShowResetting={setShowResetting}
+            />
             <Heading textAlign="center">Or request to join here:</Heading>
             <RequestForm />
         </SimpleGrid>

@@ -11,6 +11,8 @@ import { useLoading } from 'context/Loading';
 import { BooksProvider } from 'context/Books';
 
 import FullSpinner from 'components/Shared/FullSpinner';
+import { UpdatePassword } from './UpdatePassword';
+import { useEffect, useState } from 'react';
 const motionProps = {
     initial: {
         opacity: 0,
@@ -30,9 +32,19 @@ const motionProps = {
 const AppRouter = () => {
     const user = useUser();
     const { isLoading } = useLoading();
-    if (!user) {
-        return <SignIn />;
-    }
+    const [recoveryToken, setRecoveryToken] = useState<string | null>(null);
+
+    useEffect(() => {
+        const hashParams = new URLSearchParams(
+            window.location.hash.replace('#', '')
+        );
+        if (hashParams.get('type') === 'recovery') {
+            setRecoveryToken(hashParams.get('access_token'));
+        } else {
+            setRecoveryToken(null);
+        }
+    }, []);
+
     return (
         <Box>
             {isLoading && <FullSpinner />}
@@ -40,6 +52,19 @@ const AppRouter = () => {
                 <Router>
                     <Route
                         render={({ location }: any) => {
+                            if (recoveryToken) {
+                                return (
+                                    <UpdatePassword
+                                        recoveryToken={recoveryToken}
+                                        clearToken={() =>
+                                            setRecoveryToken(null)
+                                        }
+                                    />
+                                );
+                            }
+                            if (!user) {
+                                return <SignIn />;
+                            }
                             return (
                                 <AnimatePresence
                                     exitBeforeEnter
