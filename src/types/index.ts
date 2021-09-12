@@ -19,6 +19,8 @@ export interface Auth {
     profile: Profile | null;
     login: Function;
     logout: Function;
+    resetPassword: Function;
+    updatePassword: Function;
 }
 
 export interface LoadingContext {
