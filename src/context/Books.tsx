@@ -1,14 +1,14 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { getAllBooks, getAllTags } from 'utils';
 import * as T from 'types';
-
+import { useUser } from 'context/Auth';
 const BooksContext = createContext<T.BooksContext | null>(null);
 const TagsContext = createContext<T.TagsContext | null>(null);
 
 const BooksProvider = ({ children }: any) => {
     const [books, setBooks] = useState<T.Book[]>([]);
     const [tags, setTags] = useState<T.Tag[]>([]);
-
+    const user = useUser();
     const getBooksData = async () => {
         const books = await getAllBooks();
         setBooks(books);
@@ -22,7 +22,7 @@ const BooksProvider = ({ children }: any) => {
     useEffect(() => {
         getBooksData();
         getTagsData();
-    }, []);
+    }, [user]);
 
     const addBook = (book: T.Book) => {
         setBooks([...books, book]);
