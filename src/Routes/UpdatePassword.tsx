@@ -1,4 +1,4 @@
-import { SimpleGrid, Text } from '@chakra-ui/react';
+import { SimpleGrid } from '@chakra-ui/react';
 import { UpdatePasswordForm } from 'components/Auth/UpdatePasswordForm';
 import Banner from 'components/Shared/Banner';
 import { useAuth } from 'context/Auth';
