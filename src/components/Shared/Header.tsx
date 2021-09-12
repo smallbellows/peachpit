@@ -21,7 +21,7 @@ const Header = (): JSX.Element => {
                 </MenuButton>
                 <MenuList>
                     <MenuItem>
-                        <Link to="/profile">Edit Profile</Link>
+                        <Link to="/profile/edit">Edit Profile</Link>
                     </MenuItem>
                     <MenuItem
                         onClick={() => {

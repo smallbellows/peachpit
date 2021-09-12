@@ -9,31 +9,55 @@ import {
     Button,
     ButtonGroup,
 } from '@chakra-ui/react';
-import { useUser } from 'context/Auth';
+import { useUser, useAuth } from 'context/Auth';
 import { useEffect, useState } from 'react';
 import Avatar from 'components/Shared/Avatar';
+import PasswordInputs from 'components/Shared/PasswordInputs';
 import { supabase } from 'utils';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useLoading } from 'context/Loading';
 
-const ProfileForm = () => {
+type ProfileFormProps = {
+    view: 'new' | 'edit';
+};
+
+const ProfileForm = ({ view }: ProfileFormProps) => {
     const user = useUser();
+    const auth = useAuth();
     const { isLoading, setIsLoading } = useLoading();
     const [username, setUsername] = useState<string | null>(null);
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [done, setDone] = useState(false);
+    const [password, setPassword] = useState<string | null>(null);
+    const [hasPasswordError, setHasPasswordError] = useState(false);
 
+    const history = useHistory();
     useEffect(() => {
         setUsername(user?.username || null);
         setAvatarUrl(user?.avatarUrl || null);
     }, [user]);
+
+    const setUserPassword = async (): Promise<boolean> => {
+        if (!password || hasPasswordError) {
+            return false;
+        }
+        let isUpdated = true;
+        auth?.setPassword(password).catch(() => {
+            isUpdated = false;
+        });
+        return isUpdated;
+    };
 
     const updateProfile = async (
         username: string | null,
         avatarUrl: string | null
     ) => {
         if (!username) return;
+        if (view === 'new') {
+            const isPasswordSet = await setUserPassword();
+            if (!isPasswordSet) return;
+        }
+
         setError(null);
         setIsLoading(true);
         const updates = {
@@ -45,17 +69,16 @@ const ProfileForm = () => {
         const { error: updateError } = await supabase
             .from('profiles')
             .upsert(updates, { returning: 'minimal' });
+        setIsLoading(false);
         if (updateError) {
             setError(updateError.message);
         } else {
-            setIsLoading(false);
-            setDone(true);
+            history.replace('/');
         }
     };
 
     if (!user) return null;
     if (error) return <Text>{error}</Text>;
-    if (done && !isLoading) return <Redirect to="/" />;
     return (
         <SimpleGrid
             columns={1}
@@ -81,6 +104,12 @@ const ProfileForm = () => {
                     onChange={(e) => setUsername(e.target.value)}
                 />
             </FormControl>
+            {view === 'new' && (
+                <PasswordInputs
+                    setPassword={setPassword}
+                    setHasError={setHasPasswordError}
+                />
+            )}
             <FormControl>
                 <Text>Profile Pic</Text>
                 <Avatar
@@ -93,7 +122,7 @@ const ProfileForm = () => {
                 <Button
                     colorScheme="teal"
                     variant="outline"
-                    onClick={() => setDone(true)}
+                    onClick={() => history.replace('/')}
                 >
                     Cancel
                 </Button>
