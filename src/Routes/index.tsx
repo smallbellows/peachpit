@@ -80,9 +80,15 @@ const AppRouter = () => {
                                             </motion.div>
                                         </Route>
 
+                                        <Route path="/profile/edit">
+                                            <motion.div {...motionProps}>
+                                                <Profile view="edit" />
+                                            </motion.div>
+                                        </Route>
+
                                         <Route path="/profile">
                                             <motion.div {...motionProps}>
-                                                <Profile />
+                                                <Profile view="new" />
                                             </motion.div>
                                         </Route>
 

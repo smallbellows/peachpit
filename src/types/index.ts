@@ -21,6 +21,7 @@ export interface Auth {
     logout: Function;
     resetPassword: Function;
     updatePassword: Function;
+    setPassword: Function;
 }
 
 export interface LoadingContext {
