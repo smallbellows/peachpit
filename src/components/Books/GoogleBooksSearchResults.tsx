@@ -86,9 +86,9 @@ const GoogleBooksSearchResults = (props: GBSRProps) => {
     }
     return (
         <Wrap>
-            {books.map((book) => (
+            {books.map((book, index) => (
                 <SimpleGrid
-                    key={book.id}
+                    key={`${book.id}+${index}`}
                     border="1px solid"
                     borderColor="red.800"
                     p="2"

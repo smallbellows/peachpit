@@ -16,6 +16,7 @@ import {
     DrawerHeader,
     DrawerBody,
     HStack,
+    DrawerCloseButton,
 } from '@chakra-ui/react';
 import CoverImage from 'components/Books/CoverImage';
 import GoogleBooksSearchResults from 'components/Books/GoogleBooksSearchResults';
@@ -97,6 +98,7 @@ const BookPage = (props: BookPageProps) => {
                 <Drawer onClose={onClose} isOpen={isOpen} size="md">
                     <DrawerOverlay />
                     <DrawerContent overflow="auto">
+                        <DrawerCloseButton />
                         <DrawerHeader>
                             <Heading>Search Results</Heading>
                         </DrawerHeader>
