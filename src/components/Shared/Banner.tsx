@@ -1,15 +1,14 @@
 import { Grid, GridItem, Heading } from '@chakra-ui/react';
 import title from './title.svg';
-const backgroundProps = {
-    background: 'teal.400',
-    border: '2px solid white',
-};
-const borderRadius = '13px';
 
+const background = 'teal.400';
+const borderRadius = '13px';
+const border = '2px solid white';
+const borderNone = '0px solid white';
 const Banner = () => {
     return (
         <Grid
-            templateColumns="1fr 2fr 4fr 2fr 1fr"
+            templateColumns={['0fr 2fr 4fr 2fr 0fr', '1fr 2fr 4fr 2fr 1fr']}
             templateRows="0.5fr 0.5fr 1fr"
         >
             <GridItem
@@ -18,7 +17,8 @@ const Banner = () => {
                 rowEnd={4}
                 colEnd={2}
                 borderTopLeftRadius={borderRadius}
-                {...backgroundProps}
+                background={background}
+                border={[borderNone, border]}
             />
             <GridItem
                 rowStart={2}
@@ -26,7 +26,8 @@ const Banner = () => {
                 rowEnd={4}
                 colEnd={3}
                 borderTopLeftRadius={borderRadius}
-                {...backgroundProps}
+                background={background}
+                border={border}
             />
             <GridItem
                 rowStart={1}
@@ -36,7 +37,8 @@ const Banner = () => {
                 sx={{ img: { margin: '30px auto 10px auto', width: '90%' } }}
                 borderTopLeftRadius={borderRadius}
                 borderTopRightRadius={borderRadius}
-                {...backgroundProps}
+                background={background}
+                border={border}
             >
                 <Heading
                     transform="rotate(-13deg)"
@@ -44,6 +46,7 @@ const Banner = () => {
                     position="relative"
                     top="0"
                     left="0"
+                    sx={{ whiteSpace: 'nowrap' }}
                 >
                     Welcome to the
                 </Heading>
@@ -55,7 +58,8 @@ const Banner = () => {
                 rowEnd={4}
                 colEnd={5}
                 borderTopRightRadius={borderRadius}
-                {...backgroundProps}
+                background={background}
+                border={border}
             />
             <GridItem
                 rowStart={3}
@@ -63,7 +67,8 @@ const Banner = () => {
                 rowEnd={5}
                 colEnd={6}
                 borderTopRightRadius={borderRadius}
-                {...backgroundProps}
+                background={background}
+                border={[borderNone, border]}
             />
         </Grid>
     );
